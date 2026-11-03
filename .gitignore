@@ -1,0 +1,29 @@
+# NetBeans / Ant generated files
+/build/
+/dist/
+/nbproject/private/
+/nbproject/随/
+*.class
+*.log
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local environment / secrets
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+
+# Local databases, exports and generated reports
+*.sql
+*.dump
+*.bak
+*.db
+*.sqlite
+*.pdf
