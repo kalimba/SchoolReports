@@ -119,5 +119,4 @@ the SQL script accordingly.
 The legacy application constructs a number of SQL statements by concatenating
 user-entered values. Before deploying it with real student data, migrate those
 statements to `PreparedStatement` parameters, review account/password handling,
-and restrict database access. Do not commit `.env` files, passwords, private
-student information, or production database backups to GitHub.
+and restrict database access.
