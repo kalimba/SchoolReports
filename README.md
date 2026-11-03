@@ -89,9 +89,3 @@ Generated `build/` and `dist/` output, machine-specific `nbproject/private/` set
 ## Privacy and security notes
 
 This application handles student names, marks, and other school records. Use synthetic data for demonstrations and screenshots. Do not publish real student records, report PDFs, database backups, passwords, or personal information.
-
-The original source contains SQL statements assembled using string concatenation. Before deploying this application with real school data, review and replace these with `PreparedStatement` parameters to reduce SQL injection risk.
-
-## License
-
-No license has been added. Choose a license only after confirming that you own or have permission to publish the source code and bundled assets/dependencies. Without a license, GitHub users do not automatically receive permission to reuse, modify, or distribute the project.
