@@ -1,59 +1,41 @@
 # SchoolReports
 
-SchoolReports is a Java Swing desktop application for managing school information, entering student marks, and generating student reports. The project uses MySQL for data storage and iText for PDF report generation.
+SchoolReports is a Java Swing desktop application for managing school information, recording student marks, and generating student reports as PDF files. It uses MySQL for data storage and iText for PDF generation.
 
-## Project status
+## Features
 
-This repository contains the Java source code, NetBeans GUI form files, project configuration, application images, and the runtime libraries that were included with the supplied project.
-
-**Important:** The supplied archive did not include a MySQL database export. A starter schema has now been added under `sql/`, inferred from the SQL statements in the Java source. It has not been verified against the original database; follow `DATABASE_SETUP.md` and validate it before using real school records.
-
-## Features visible in the supplied source
-
-- Login screen
-- Admin and teacher account screens
+- Login screen and administration for teacher accounts
 - Student and class management
 - Course and teacher assignment
 - Student marks entry and updates
-- Report calculations and PDF report generation
+- Report calculations and PDF generation
 
 ## Requirements
 
 - JDK 8 or a compatible JDK
-- Apache NetBeans with Java SE support (the project uses the NetBeans Ant project format)
+- Apache NetBeans with Java SE support
 - MySQL Server
-- The database created using the starter schema in `sql/01_create_database.sql` (subject to validation)
+- The database schema in [`sql/01_create_database.sql`](sql/01_create_database.sql)
 
-The included MySQL Connector/J is an old 5.1.39 driver. Consider upgrading it and testing compatibility before using this application in production.
+The project uses the NetBeans Ant project format. Its runtime dependencies are included in `lib/`; see [Dependencies](#dependencies).
 
-## Open in NetBeans
+## Setup
 
-1. Download or clone this repository.
-2. In NetBeans, choose **File → Open Project**.
-3. Select the folder containing this `README.md` and `build.xml`.
-4. Allow NetBeans to load the project.
-5. Configure the database environment variables described below.
-6. Build and run the project from NetBeans.
+1. Clone or download this repository.
+2. Follow [DATABASE_SETUP.md](DATABASE_SETUP.md) to create the database and application user.
+3. Set the database environment variables listed below.
+4. In NetBeans, choose **File → Open Project** and select this repository folder.
+5. Build and run the project from NetBeans.
 
-The NetBeans project classpath uses `${basedir}/lib/...` references, so it resolves dependencies relative to the project folder rather than relying on machine-specific `E:\` or `G:\` paths.
+### Database environment variables
 
-## Database installation
+The application reads its database connection details from these environment variables:
 
-Follow [DATABASE_SETUP.md](DATABASE_SETUP.md) to install MySQL, create the database and tables, create an application database user, and configure the application. The starter schema is in [`sql/01_create_database.sql`](sql/01_create_database.sql). Because the original database export was not included, verify the inferred schema against the original database before using real records.
+- `SCHOOLREPORTS_DB_URL` — JDBC URL, for example `jdbc:mysql://localhost:3306/school-reports`
+- `SCHOOLREPORTS_DB_USER` — MySQL application user
+- `SCHOOLREPORTS_DB_PASSWORD` — password for that user
 
-## Database configuration
-
-The application reads its connection details from environment variables. It no longer contains a hard-coded `root` account with an empty password.
-
-Set these variables on the computer where the application will run:
-
-- `SCHOOLREPORTS_DB_URL` — for example, `jdbc:mysql://localhost:3306/school-reports`
-- `SCHOOLREPORTS_DB_USER` — a MySQL user with the required permissions
-- `SCHOOLREPORTS_DB_PASSWORD` — that user's password
-
-Use a dedicated database account rather than the MySQL root account. Do not commit real passwords, database dumps containing personal information, or production connection details.
-
-On Windows PowerShell, you can set them for the current terminal session like this (replace the example values):
+For a local Windows PowerShell session, set example values as follows, replacing the password with your own:
 
 ```powershell
 $env:SCHOOLREPORTS_DB_URL = "jdbc:mysql://localhost:3306/school-reports"
@@ -61,31 +43,33 @@ $env:SCHOOLREPORTS_DB_USER = "schoolreports_app"
 $env:SCHOOLREPORTS_DB_PASSWORD = "replace-with-your-local-password"
 ```
 
-Then launch the application from that same terminal/IDE process so it inherits the variables.
+Launch NetBeans from that terminal so it inherits the variables, or configure them in your IDE's launch environment. Use a dedicated database account rather than MySQL `root`. Never commit real passwords, production connection details, or database dumps containing personal information.
+
+## Database schema
+
+The starter schema is provided in [`sql/01_create_database.sql`](sql/01_create_database.sql). Review and test it with a disposable database before using real school records; verify that its tables and columns match the application's queries and your deployment requirements.
 
 ## Dependencies
 
-The `lib/` directory contains the runtime JARs supplied with the original project:
+The `lib/` directory contains the project's runtime JARs:
 
 - MySQL Connector/J 5.1.39
 - iText 5.5.4 modules
 - JTattoo 1.6.11
 - rs2xml
 
-These dependencies are retained to keep the original NetBeans project classpath self-contained. Review each dependency's license and compatibility before redistributing the application.
+The project currently uses the legacy MySQL driver class `com.mysql.jdbc.Driver`. If upgrading Connector/J, update and test the driver configuration and connection URL together. Review dependency licenses and compatibility before redistribution or production use.
 
-## Repository contents
+## Repository structure
 
 - `src/` — Java source files and NetBeans `.form` GUI definitions
-- `nbproject/` — shared NetBeans project configuration
-- `DATABASE_SETUP.md` — step-by-step MySQL installation and configuration
-- `sql/01_create_database.sql` — inferred database schema
+- `nbproject/` — NetBeans project configuration
+- `sql/01_create_database.sql` — database schema
 - `lib/` — runtime dependency JARs
+- `DATABASE_SETUP.md` — database installation and configuration instructions
+- `build.xml` — Ant build file
 - `logo.jpg`, `logoVisible.png` — application image assets
-- `build.xml` — NetBeans Ant build file
 
-Generated `build/` and `dist/` output, machine-specific `nbproject/private/` settings, and sample PDF reports from the supplied archive are intentionally excluded.
+## Security and privacy
 
-## Privacy and security notes
-
-This application handles student names, marks, and other school records. Use synthetic data for demonstrations and screenshots. Do not publish real student records, report PDFs, database backups, passwords, or personal information.
+SchoolReports handles student names, marks, and other school records. Use synthetic data for demonstrations. Do not publish real student records, report PDFs, database backups, or credentials. The application contains legacy SQL construction that should be reviewed and migrated to prepared statements before use with sensitive or production data. Protect database access and review account and password handling before deployment.
